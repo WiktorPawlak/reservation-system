@@ -22,22 +22,4 @@ public class ReservationsService {
     return reservationsRepository.findById(id)
             .orElseThrow();
   }
-
-//  public List<Post> getPostsWithComments(int page, Sort.Direction sort) {
-//    List<Post> allPosts = postRepository.findAllPosts(PageRequest.of(page, PAGE_SIZE,
-//            Sort.by(sort, "id")
-//    ));
-//    List<Long> ids = allPosts.stream()
-//            .map(Post::getId)
-//            .collect(Collectors.toList());
-//    List<Comment> comments = commentRepository.findAllByPostIdIn(ids);
-//    allPosts.forEach(post -> post.setComment(extractComments(comments, post.getId())));
-//    return allPosts;
-//  }
-//
-//  private List<Comment> extractComments(List<Comment> comments, long id) {
-//    return comments.stream()
-//            .filter(comment -> comment.getPostId() == id)
-//            .collect(Collectors.toList());
-//  }
 }

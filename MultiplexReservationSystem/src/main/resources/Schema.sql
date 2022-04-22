@@ -16,9 +16,15 @@ CREATE TABLE ROOMS (
 );
 
 CREATE TABLE SEATS (
-    id BIGINT NOT NULL,
-    room_id BIGINT NOT NULL,
-    isOccupied BOOLEAN NOT NULL
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    seat_number INT NOT NULL,
+    room_id BIGINT NOT NULL
+);
+
+CREATE TABLE BOOKED_SEAT (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    seat_id BIGINT NOT NULL,
+    screening_id BIGINT NOT NULL
 );
 
 CREATE TABLE RESERVATIONS (
@@ -40,9 +46,14 @@ ALTER TABLE SCREENINGS
 ALTER TABLE SEATS
     ADD CONSTRAINT seat_room_id_fk
         FOREIGN KEY (room_id) REFERENCES rooms(id);
-ALTER TABLE SEATS
-    ADD CONSTRAINT composite_pk_seats primary key (id, room_id);
 
 ALTER TABLE RESERVATIONS
     ADD CONSTRAINT reservation_screening_id_fk
+        FOREIGN KEY (screening_id) REFERENCES screenings(id);
+
+ALTER TABLE BOOKED_SEAT
+    ADD CONSTRAINT bookedseat_seat_id_fk
+        FOREIGN KEY (seat_id) REFERENCES SEATS(id);
+ALTER TABLE BOOKED_SEAT
+    ADD CONSTRAINT bookedseat_screening_id_fk
         FOREIGN KEY (screening_id) REFERENCES screenings(id);
