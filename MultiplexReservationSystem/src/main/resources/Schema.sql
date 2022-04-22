@@ -32,8 +32,14 @@ CREATE TABLE RESERVATIONS (
     screening_id BIGINT NOT NULL,
     name VARCHAR(400) NOT NULL,
     surname VARCHAR(400) NOT NULL,
-    price NUMERIC NOT NULL,
     expiration_time TIMESTAMP NOT NULL
+);
+
+CREATE TABLE TICKETS (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    reservation_id BIGINT NOT NULL,
+    seat_id BIGINT NOT NULL,
+    type ENUM ('ADULT', 'STUDENT', 'CHILD') NOT NULL DEFAULT 'ADULT'
 );
 
 ALTER TABLE SCREENINGS
@@ -50,6 +56,13 @@ ALTER TABLE SEATS
 ALTER TABLE RESERVATIONS
     ADD CONSTRAINT reservation_screening_id_fk
         FOREIGN KEY (screening_id) REFERENCES screenings(id);
+
+ALTER TABLE TICKETS
+    ADD CONSTRAINT ticket_reservation_id_fk
+        FOREIGN KEY (reservation_id) REFERENCES  RESERVATIONS(id);
+ALTER TABLE TICKETS
+    ADD CONSTRAINT ticket_seat_id_fk
+        FOREIGN KEY (seat_id) REFERENCES  SEATS(id);
 
 ALTER TABLE BOOKED_SEAT
     ADD CONSTRAINT bookedseat_seat_id_fk
