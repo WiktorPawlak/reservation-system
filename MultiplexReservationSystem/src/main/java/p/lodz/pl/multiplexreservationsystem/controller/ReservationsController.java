@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import p.lodz.pl.multiplexreservationsystem.model.Reservations;
 import p.lodz.pl.multiplexreservationsystem.service.ReservationsService;
+import p.lodz.pl.multiplexreservationsystem.service.dto.ReservationDto;
 
 import javax.validation.Valid;
 
@@ -15,8 +16,9 @@ public class ReservationsController {
   private final ReservationsService reservationsService;
 
   @PostMapping("/reservations")
-  Reservations postReservation(@RequestBody @Valid Reservations newReservation) {
-    return reservationsService.postReservation(newReservation);
+  ReservationDto postReservation(@RequestBody @Valid Reservations newReservation) {
+    Reservations reservation = reservationsService.postReservation(newReservation);
+    return reservationsService.getReservationInfo(reservation.getId());
   }
 //      {
 //        "screeningId": 1,

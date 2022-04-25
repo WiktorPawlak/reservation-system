@@ -11,11 +11,14 @@ import p.lodz.pl.multiplexreservationsystem.repository.BookedSeatRepository;
 import p.lodz.pl.multiplexreservationsystem.repository.MoviesRepository;
 import p.lodz.pl.multiplexreservationsystem.repository.ReservationsRepository;
 import p.lodz.pl.multiplexreservationsystem.repository.TicketsRepository;
+import p.lodz.pl.multiplexreservationsystem.service.dto.ReservationDto;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+
+import static p.lodz.pl.multiplexreservationsystem.service.mapper.ReservationsMapper.*;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +55,11 @@ public class ReservationsService {
     bookTickets(reservation.getTickets());
 
     return reservation;
+  }
+
+  public ReservationDto getReservationInfo(long id) {
+    Reservations reservation = getSingleReservation(id);
+    return mapToReservationsDto(reservation);
   }
 
   private void bookSeats(List<Tickets> tickets, Long screeningId) {
