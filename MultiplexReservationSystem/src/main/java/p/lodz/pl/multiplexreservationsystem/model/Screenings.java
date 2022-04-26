@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,5 +19,6 @@ public class Screenings {
   private long id;
   private long movieId;
   private long roomId;
+  @NotNull
   private LocalDateTime date;
 }

@@ -3,10 +3,8 @@ package p.lodz.pl.multiplexreservationsystem.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import p.lodz.pl.multiplexreservationsystem.model.BookedSeat;
-import p.lodz.pl.multiplexreservationsystem.model.Reservations;
-import p.lodz.pl.multiplexreservationsystem.model.Screenings;
-import p.lodz.pl.multiplexreservationsystem.model.Tickets;
+import p.lodz.pl.multiplexreservationsystem.exceptionHandling.InvalidBusinessArgumentException;
+import p.lodz.pl.multiplexreservationsystem.model.*;
 import p.lodz.pl.multiplexreservationsystem.repository.BookedSeatRepository;
 import p.lodz.pl.multiplexreservationsystem.repository.MoviesRepository;
 import p.lodz.pl.multiplexreservationsystem.repository.ReservationsRepository;
@@ -16,7 +14,7 @@ import p.lodz.pl.multiplexreservationsystem.service.dto.ReservationDto;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.*;
 
 import static p.lodz.pl.multiplexreservationsystem.service.mapper.ReservationsMapper.*;
 
@@ -24,12 +22,14 @@ import static p.lodz.pl.multiplexreservationsystem.service.mapper.ReservationsMa
 @RequiredArgsConstructor
 public class ReservationsService {
   private static final int PAGE_SIZE = 4;
+  private static final int NO_SEATS_IN_ROW = 5;
 
   private final ReservationsRepository reservationsRepository;
   private final BookedSeatRepository bookedSeatRepository;
   private final MoviesRepository moviesRepository;
   private final TicketsRepository ticketsRepository;
 
+  private final SeatsService seatsService;
   private final ScreeningsService screeningsService;
 
   public List<Reservations> getReservations(int page) {
@@ -43,9 +43,14 @@ public class ReservationsService {
 
   @Transactional
   public Reservations postReservation(Reservations reservation) {
-    //TODO::check for 15 minutes before session
-    //TODO::check for seats availability
     Screenings screening = screeningsService.getSingleScreening(reservation.getScreeningId());
+
+    if (isTooLateToBook(screening)) {
+      throw new InvalidBusinessArgumentException("The seats must be booked at least 15 minutes before session.");
+    }
+    if (isBookingCorrect(screening.getRoomId(), reservation.getTickets())) {
+      throw new InvalidBusinessArgumentException("There can't be one unoccupied seat in between already booked seats.");
+    }
 
     bookSeats(reservation.getTickets(), screening.getId());
     LocalDateTime expirationTime = calculateExpirationDate(screening);
@@ -64,7 +69,7 @@ public class ReservationsService {
 
   private void bookSeats(List<Tickets> tickets, Long screeningId) {
     for (var ticket : tickets) {
-      bookedSeatRepository.save((new BookedSeat(ticket.getSeatId(), screeningId)));
+      bookedSeatRepository.save(new BookedSeat(ticket.getSeatId(), screeningId));
     }
   }
 
@@ -76,5 +81,52 @@ public class ReservationsService {
     LocalTime movieDuration = moviesRepository.findById(screening.getMovieId()).orElseThrow().getDuration();
     return screening.getDate().plusHours(movieDuration.getHour())
                               .plusMinutes(movieDuration.getMinute());
+  }
+
+  private boolean isTooLateToBook(Screenings screening) {
+    return LocalDateTime.now().isAfter(screening.getDate().minusMinutes(15));
+  }
+
+  private boolean isBookingCorrect(long roomId, List<Tickets> tickets) {
+    List<Seats> allSeats = seatsService.getRoomsSeats(roomId);
+    Set<Seats> seatsToBook = new HashSet<>(); //set for seats uniqueness
+    List<Seats> availableSeats = seatsService.getAvailableSeats(roomId);
+    List<Seats> bookedSeats = new ArrayList<>(availableSeats);
+    bookedSeats.removeAll(availableSeats);
+
+    for (var ticket : tickets) {
+      seatsToBook.add(seatsService.getSeatById(ticket.getSeatId()));
+    }
+    if (seatsToBook.size() != tickets.size()
+            || !availableSeats.containsAll(seatsToBook)) {
+      return false;
+    }
+
+    for (var seat : seatsToBook) {
+      if (seat.getSeatNumber() != 1) {
+        Seats leftNeighbour = allSeats.get((int) (seat.getId() - 1) - 1);
+        if (!seatsToBook.contains(leftNeighbour) && !bookedSeats.contains(leftNeighbour)) {
+          if (leftNeighbour.getSeatNumber() != 1) {
+            Seats secondLeftNeighbour = allSeats.get((int) (leftNeighbour.getId() - 1) - 1);
+            if (seatsToBook.contains(secondLeftNeighbour) || bookedSeats.contains(secondLeftNeighbour)) {
+              return false;
+            }
+          }
+        }
+      }
+
+      if (seat.getSeatNumber() != NO_SEATS_IN_ROW) {
+        Seats rightNeighbour = allSeats.get((int) seat.getId());
+        if (!seatsToBook.contains(rightNeighbour) && !bookedSeats.contains(rightNeighbour)) {
+          if (rightNeighbour.getSeatNumber() != 1) {
+            Seats secondRightNeighbour = allSeats.get((int) rightNeighbour.getId());
+            if (seatsToBook.contains(secondRightNeighbour) || bookedSeats.contains(secondRightNeighbour)) {
+              return false;
+            }
+          }
+        }
+      }
+    }
+    return true;
   }
 }

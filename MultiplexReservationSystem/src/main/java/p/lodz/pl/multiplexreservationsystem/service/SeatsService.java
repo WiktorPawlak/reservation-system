@@ -2,6 +2,7 @@ package p.lodz.pl.multiplexreservationsystem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import p.lodz.pl.multiplexreservationsystem.model.Seats;
 import p.lodz.pl.multiplexreservationsystem.repository.ScreeningsRepository;
 import p.lodz.pl.multiplexreservationsystem.repository.SeatsRepository;
 import p.lodz.pl.multiplexreservationsystem.service.dto.RoomInfoDto;
@@ -19,10 +20,22 @@ public class SeatsService {
 
   public RoomInfoDto getRoomInfo(Long id) {
     Long roomId = screeningsRepository.findById(id).orElseThrow().getRoomId();
-    return mapToRoomInfoDto(roomId, getAvailableSeats(roomId));
+    return mapToRoomInfoDto(roomId, getAvailableSeatsDtos(roomId));
   }
 
-  public List<SeatsDto> getAvailableSeats(Long roomId) {
+  public Seats getSeatById(long id) {
+    return seatsRepository.findById(id).orElseThrow();
+  }
+
+  public List<SeatsDto> getAvailableSeatsDtos(Long roomId) {
     return mapToSeatsDtos(seatsRepository.getRoomsAvailableSeats(roomId));
+  }
+
+  public List<Seats> getAvailableSeats(Long roomId) {
+    return seatsRepository.getRoomsAvailableSeats(roomId);
+  }
+
+  public List<Seats> getRoomsSeats(Long roomId) {
+    return seatsRepository.findByRoomId(roomId);
   }
 }

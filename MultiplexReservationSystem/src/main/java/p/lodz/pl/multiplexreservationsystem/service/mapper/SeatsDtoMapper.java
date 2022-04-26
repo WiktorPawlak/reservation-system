@@ -16,6 +16,7 @@ public class SeatsDtoMapper {
 
   public static SeatsDto mapToSeatsDto(Seats roomsAvailableSeat) {
     return SeatsDto.builder()
+            .row(roomsAvailableSeat.getRowNumber())
             .seatNumber(roomsAvailableSeat.getSeatNumber())
             .build();
   }

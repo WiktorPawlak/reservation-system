@@ -38,20 +38,4 @@ public class ScreeningsController {
           int page) {
     return screeningsService.getScreeningsWithinPeriod(from, to, page);
   } //2022-04-19T11:00
-//  private List<ScreeningsDto> mapToScreeningsDtos(List<Screenings> screeningsWithMovies) {
-//    return screeningsWithMovies.stream()
-//            .map(screening, movie -> mapToScreeningsDto(screening, movie))
-//            .collect(Collectors.toList());
-//  }
-//
-//  private ScreeningsDto mapToScreeningsDto(Screenings screening, Movies movie) {
-//    return ScreeningsDto.builder()
-//            .id(screening.getId())
-//            .movieId(screening.getMovieId())
-//            .roomId(screening.getRoomId())
-//            .date(screening.getDate())
-//            .title(movie.getTitle())
-//            .duration(movie.getDuration())
-//            .build();
-//  }
 }

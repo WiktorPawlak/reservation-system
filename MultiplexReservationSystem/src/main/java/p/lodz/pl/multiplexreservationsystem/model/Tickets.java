@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -17,6 +18,8 @@ public class Tickets {
   @JoinColumn(name = "reservation_id")
   @JsonBackReference
   private Reservations reservation;
+  @NotNull
   private long seatId;
+  @NotNull
   private TicketType type;
 }

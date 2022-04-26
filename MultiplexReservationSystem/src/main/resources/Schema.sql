@@ -17,6 +17,7 @@ CREATE TABLE ROOMS (
 
 CREATE TABLE SEATS (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    row_number INT NOT NULL,
     seat_number INT NOT NULL,
     room_id BIGINT NOT NULL
 );
