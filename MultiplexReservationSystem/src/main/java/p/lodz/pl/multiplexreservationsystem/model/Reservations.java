@@ -1,8 +1,7 @@
 package p.lodz.pl.multiplexreservationsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +13,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Reservations {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

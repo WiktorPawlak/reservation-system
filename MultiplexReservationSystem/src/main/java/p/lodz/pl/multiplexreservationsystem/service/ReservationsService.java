@@ -1,7 +1,6 @@
 package p.lodz.pl.multiplexreservationsystem.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import p.lodz.pl.multiplexreservationsystem.exceptionHandling.InvalidBusinessArgumentException;
 import p.lodz.pl.multiplexreservationsystem.model.*;
@@ -21,7 +20,6 @@ import static p.lodz.pl.multiplexreservationsystem.service.mapper.ReservationsMa
 @Service
 @RequiredArgsConstructor
 public class ReservationsService {
-  private static final int PAGE_SIZE = 4;
   private static final int NO_SEATS_IN_ROW = 5;
 
   private final ReservationsRepository reservationsRepository;
@@ -32,17 +30,13 @@ public class ReservationsService {
   private final SeatsService seatsService;
   private final ScreeningsService screeningsService;
 
-  public List<Reservations> getReservations(int page) {
-    return reservationsRepository.findAllReservations(PageRequest.of(page, PAGE_SIZE));
-  }
-
   public Reservations getSingleReservation(long id) {
     return reservationsRepository.findById(id)
             .orElseThrow();
   }
 
   @Transactional
-  public Reservations postReservation(Reservations reservation) {
+  public ReservationDto postReservation(Reservations reservation) {
     Screenings screening = screeningsService.getSingleScreening(reservation.getScreeningId());
 
     if (isTooLateToBook(screening)) {
@@ -60,11 +54,10 @@ public class ReservationsService {
     reservationsRepository.save(reservation);
     bookTickets(reservation.getTickets());
 
-    return reservation;
+    return getReservationInfo(reservation);
   }
 
-  public ReservationDto getReservationInfo(long id) {
-    Reservations reservation = getSingleReservation(id);
+  public ReservationDto getReservationInfo(Reservations reservation) {
     return mapToReservationsDto(reservation);
   }
 
@@ -94,10 +87,10 @@ public class ReservationsService {
     List<Seats> bookedSeats = seatsService.getBookedSeats(roomId, screeningId);
     List<Seats> availableSeats = seatsService.getAvailableSeats(roomId, bookedSeats);
 
-
     for (var ticket : tickets) {
       seatsToBook.add(seatsService.getSeatById(ticket.getSeatId()));
     }
+
     if (seatsToBook.size() != tickets.size()
             || !availableSeats.containsAll(seatsToBook)) {
       return false;
@@ -110,25 +103,25 @@ public class ReservationsService {
 
       if (seat.getSeatNumber() != 1) {
         Seats leftNeighbour = allSeats.get((int) (seat.getId() - 1) - 1);
-        if (!seatsToBook.contains(leftNeighbour) && !bookedSeats.contains(leftNeighbour)) {
-          if (leftNeighbour.getSeatNumber() != 1) {
+        if (!seatsToBook.contains(leftNeighbour)
+                && !bookedSeats.contains(leftNeighbour)
+                && leftNeighbour.getSeatNumber() != 1) {
             Seats secondLeftNeighbour = allSeats.get((int) (leftNeighbour.getId() - 1) - 1);
             if (seatsToBook.contains(secondLeftNeighbour) || bookedSeats.contains(secondLeftNeighbour)) {
               return false;
             }
-          }
         }
       }
 
       if (seat.getSeatNumber() != NO_SEATS_IN_ROW) {
         Seats rightNeighbour = allSeats.get((int) seat.getId());
-        if (!seatsToBook.contains(rightNeighbour) && !bookedSeats.contains(rightNeighbour)) {
-          if (rightNeighbour.getSeatNumber() != 1) {
+        if (!seatsToBook.contains(rightNeighbour)
+                && !bookedSeats.contains(rightNeighbour)
+                && rightNeighbour.getSeatNumber() != 1) {
             Seats secondRightNeighbour = allSeats.get((int) rightNeighbour.getId());
             if (seatsToBook.contains(secondRightNeighbour) || bookedSeats.contains(secondRightNeighbour)) {
               return false;
             }
-          }
         }
       }
     }

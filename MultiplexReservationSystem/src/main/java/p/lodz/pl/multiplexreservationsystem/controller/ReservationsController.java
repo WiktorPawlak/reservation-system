@@ -17,8 +17,7 @@ public class ReservationsController {
 
   @PostMapping("/reservations")
   ReservationDto postReservation(@RequestBody @Valid Reservations newReservation) {
-    Reservations reservation = reservationsService.postReservation(newReservation);
-    return reservationsService.getReservationInfo(reservation.getId());
+    return reservationsService.postReservation(newReservation);
   }
 //      {
 //        "screeningId": 1,

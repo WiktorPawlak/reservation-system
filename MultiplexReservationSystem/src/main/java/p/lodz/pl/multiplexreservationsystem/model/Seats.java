@@ -1,8 +1,8 @@
 package p.lodz.pl.multiplexreservationsystem.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +11,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class Seats {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,4 @@ public class Seats {
   private int rowNumber;
   private int seatNumber;
   private long roomId;
-
-  public Seats() {
-  }
 }

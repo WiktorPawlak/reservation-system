@@ -30,9 +30,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
       errors.add(error.getObjectName() + " : " + error.getDefaultMessage());
     }
 
-    ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, exception.getLocalizedMessage(), errors);
+    ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Invalid data provided", errors);
 
-    return handleExceptionInternal(exception, apiError, headers, apiError.getStatus(), request);
+    return handleExceptionInternal(exception, apiError, headers, HttpStatus.BAD_REQUEST, request);
   }
 
   @ExceptionHandler(InvalidBusinessArgumentException.class)

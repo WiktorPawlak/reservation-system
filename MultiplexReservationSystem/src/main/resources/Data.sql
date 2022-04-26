@@ -12,29 +12,29 @@ insert into ROOMS(id) values (2);
 insert into ROOMS(id) values (3);
 
 insert into SCREENINGS(id, movie_id, room_id, date) values (1, 1, 1, '2022-04-027T11:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (2, 2, 2, '2022-04-019T11:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (3, 3, 3, '2022-04-019T11:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (4, 4, 1, '2022-04-020T11:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (5, 5, 2, '2022-04-020T10:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (6, 6, 3, '2022-04-020T11:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (7, 7, 2, '2022-04-020T12:20:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (2, 2, 2, '2023-04-019T11:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (3, 3, 3, '2023-04-019T11:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (4, 4, 1, '2023-04-020T11:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (5, 5, 2, '2023-04-020T10:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (6, 6, 3, '2023-04-020T11:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (7, 7, 2, '2023-04-020T12:20:00.00');
 
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
 values (1, 1, 'Jan', 'Ziutek', '2022-04-027T12:30:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
-values (2, 2, 'Bolek', 'Student', '2022-04-019T13:56:00.00');
+values (2, 2, 'Bolek', 'Student', '2023-04-019T13:56:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
-values (3, 3, 'Adaś', 'Bajer', '2022-04-019T12:32:00.00');
+values (3, 3, 'Adaś', 'Bajer', '2023-04-019T12:32:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
-values (4, 4, 'Oskar', 'Boski', '2022-04-019T11:45:00.00');
+values (4, 4, 'Oskar', 'Boski', '2023-04-020T11:45:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
-values (5, 5, 'Jan', 'Ziutek', '2022-04-019T11:30:00.00');
+values (5, 5, 'Jan', 'Ziutek', '2023-04-020T11:30:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
-values (6, 6, 'Jan', 'Ziutek', '2022-04-019T14:50:00.00');
+values (6, 6, 'Jan', 'Ziutek', '2023-04-020T14:50:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
-values (7, 7, 'Oskar', 'Boski', '2022-04-019T12:53:00.00');
+values (7, 7, 'Oskar', 'Boski', '2023-04-020T12:53:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
-values (8, 7, 'Bolek', 'Student', '2022-04-019T12:53:00.00');
+values (8, 7, 'Bolek', 'Student', '2023-04-020T12:53:00.00');
 
 insert into SEATS(id, row_number, seat_number, room_id) values (1, 1, 1, 1);
 insert into SEATS(id, row_number, seat_number, room_id) values (2, 1, 2, 1);
