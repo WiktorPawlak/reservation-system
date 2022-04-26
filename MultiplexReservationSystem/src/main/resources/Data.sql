@@ -11,16 +11,16 @@ insert into ROOMS(id) values (1);
 insert into ROOMS(id) values (2);
 insert into ROOMS(id) values (3);
 
-insert into SCREENINGS(id, movie_id, room_id, date) values (1, 1, 1, '2022-04-019T11:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (4, 4, 1, '2022-04-020T11:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (1, 1, 1, '2022-04-027T11:00:00.00');
 insert into SCREENINGS(id, movie_id, room_id, date) values (2, 2, 2, '2022-04-019T11:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (5, 5, 2, '2022-04-020T10:00:00.00');
-insert into SCREENINGS(id, movie_id, room_id, date) values (7, 7, 2, '2022-04-020T12:20:00.00');
 insert into SCREENINGS(id, movie_id, room_id, date) values (3, 3, 3, '2022-04-019T11:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (4, 4, 1, '2022-04-020T11:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (5, 5, 2, '2022-04-020T10:00:00.00');
 insert into SCREENINGS(id, movie_id, room_id, date) values (6, 6, 3, '2022-04-020T11:00:00.00');
+insert into SCREENINGS(id, movie_id, room_id, date) values (7, 7, 2, '2022-04-020T12:20:00.00');
 
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
-values (1, 1, 'Jan', 'Ziutek', '2022-04-019T12:30:00.00');
+values (1, 1, 'Jan', 'Ziutek', '2022-04-027T12:30:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
 values (2, 2, 'Bolek', 'Student', '2022-04-019T13:56:00.00');
 insert into RESERVATIONS(id, screening_id, name, surname, expiration_time)
@@ -85,13 +85,13 @@ insert into SEATS(id, row_number, seat_number, room_id) values (44, 3, 4, 3);
 insert into SEATS(id, row_number, seat_number, room_id) values (45, 3, 5, 3);
 
 insert into BOOKED_SEAT(id, seat_id, screening_id) values (1, 1, 1);
-insert into BOOKED_SEAT(id, seat_id, screening_id) values (2, 2, 2);
-insert into BOOKED_SEAT(id, seat_id, screening_id) values (3, 16, 3);
-insert into BOOKED_SEAT(id, seat_id, screening_id) values (4, 17, 4);
-insert into BOOKED_SEAT(id, seat_id, screening_id) values (5, 18, 5);
-insert into BOOKED_SEAT(id, seat_id, screening_id) values (6, 19, 6);
-insert into BOOKED_SEAT(id, seat_id, screening_id) values (7, 31, 7);
-insert into BOOKED_SEAT(id, seat_id, screening_id) values (8, 32, 7);
+insert into BOOKED_SEAT(id, seat_id, screening_id) values (2, 16, 2);
+insert into BOOKED_SEAT(id, seat_id, screening_id) values (3, 31, 3);
+insert into BOOKED_SEAT(id, seat_id, screening_id) values (4, 2, 4);
+insert into BOOKED_SEAT(id, seat_id, screening_id) values (5, 17, 5);
+insert into BOOKED_SEAT(id, seat_id, screening_id) values (6, 32, 6);
+insert into BOOKED_SEAT(id, seat_id, screening_id) values (7, 18, 7);
+insert into BOOKED_SEAT(id, seat_id, screening_id) values (8, 19, 7);
 
 insert into TICKETS(id, reservation_id, seat_id, type) values (1, 1, 1, 'ADULT');
 insert into TICKETS(id, reservation_id, seat_id, type) values (2, 2, 2, 'STUDENT');

@@ -48,8 +48,9 @@ public class ReservationsService {
     if (isTooLateToBook(screening)) {
       throw new InvalidBusinessArgumentException("The seats must be booked at least 15 minutes before session.");
     }
-    if (isBookingCorrect(screening.getRoomId(), reservation.getTickets())) {
-      throw new InvalidBusinessArgumentException("There can't be one unoccupied seat in between already booked seats.");
+    if (!isBookingCorrect(screening.getId(), screening.getRoomId(), reservation.getTickets())) {
+      throw new InvalidBusinessArgumentException("There can't be one unoccupied seat in between already booked seats" +
+              " or the seat is already booked");
     }
 
     bookSeats(reservation.getTickets(), screening.getId());
@@ -87,12 +88,12 @@ public class ReservationsService {
     return LocalDateTime.now().isAfter(screening.getDate().minusMinutes(15));
   }
 
-  private boolean isBookingCorrect(long roomId, List<Tickets> tickets) {
+  private boolean isBookingCorrect(long screeningId, long roomId, List<Tickets> tickets) {
     List<Seats> allSeats = seatsService.getRoomsSeats(roomId);
     Set<Seats> seatsToBook = new HashSet<>(); //set for seats uniqueness
-    List<Seats> availableSeats = seatsService.getAvailableSeats(roomId);
-    List<Seats> bookedSeats = new ArrayList<>(availableSeats);
-    bookedSeats.removeAll(availableSeats);
+    List<Seats> bookedSeats = seatsService.getBookedSeats(roomId, screeningId);
+    List<Seats> availableSeats = seatsService.getAvailableSeats(roomId, bookedSeats);
+
 
     for (var ticket : tickets) {
       seatsToBook.add(seatsService.getSeatById(ticket.getSeatId()));
@@ -103,6 +104,10 @@ public class ReservationsService {
     }
 
     for (var seat : seatsToBook) {
+      if (bookedSeats.contains(seat)) {
+        return false;
+      }
+
       if (seat.getSeatNumber() != 1) {
         Seats leftNeighbour = allSeats.get((int) (seat.getId() - 1) - 1);
         if (!seatsToBook.contains(leftNeighbour) && !bookedSeats.contains(leftNeighbour)) {

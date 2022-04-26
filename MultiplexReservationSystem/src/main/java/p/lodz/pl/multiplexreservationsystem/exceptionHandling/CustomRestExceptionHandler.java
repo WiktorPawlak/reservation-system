@@ -36,11 +36,11 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(InvalidBusinessArgumentException.class)
-  public final ResponseEntity<Object> handleInvalidArgumentsBusinessException(
+  public final ResponseEntity<Object> handleInvalidBusinessArgumentException(
           InvalidBusinessArgumentException exception) {
     final HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
 
-    final String error = "Status Code: " + status.value() + ", Exception: InvalidArgumentsBusinessException";
+    final String error = "Status Code: " + status.value() + ", Exception: InvalidBusinessArgumentException";
 
     final ApiError apiError = new ApiError(status, exception.getLocalizedMessage(), error);
 
