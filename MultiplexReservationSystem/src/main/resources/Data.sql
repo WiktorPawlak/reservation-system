@@ -94,10 +94,10 @@ insert into BOOKED_SEAT(id, seat_id, screening_id) values (7, 18, 7);
 insert into BOOKED_SEAT(id, seat_id, screening_id) values (8, 19, 7);
 
 insert into TICKETS(id, reservation_id, seat_id, type) values (1, 1, 1, 'ADULT');
-insert into TICKETS(id, reservation_id, seat_id, type) values (2, 2, 2, 'STUDENT');
-insert into TICKETS(id, reservation_id, seat_id, type) values (3, 3, 16, 'CHILD');
-insert into TICKETS(id, reservation_id, seat_id, type) values (4, 4, 17, 'STUDENT');
-insert into TICKETS(id, reservation_id, seat_id, type) values (5, 5, 18, 'ADULT');
-insert into TICKETS(id, reservation_id, seat_id, type) values (6, 6, 19, 'ADULT');
-insert into TICKETS(id, reservation_id, seat_id, type) values (7, 7, 31, 'STUDENT');
-insert into TICKETS(id, reservation_id, seat_id, type) values (8, 8, 32, 'STUDENT');
+insert into TICKETS(id, reservation_id, seat_id, type) values (2, 2, 16, 'STUDENT');
+insert into TICKETS(id, reservation_id, seat_id, type) values (3, 3, 31, 'CHILD');
+insert into TICKETS(id, reservation_id, seat_id, type) values (4, 4, 10, 'STUDENT');
+insert into TICKETS(id, reservation_id, seat_id, type) values (5, 5, 20, 'ADULT');
+insert into TICKETS(id, reservation_id, seat_id, type) values (6, 6, 33, 'ADULT');
+insert into TICKETS(id, reservation_id, seat_id, type) values (7, 7, 28, 'STUDENT');
+insert into TICKETS(id, reservation_id, seat_id, type) values (8, 8, 29, 'STUDENT');
