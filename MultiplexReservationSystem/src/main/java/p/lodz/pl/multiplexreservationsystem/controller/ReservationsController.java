@@ -19,19 +19,20 @@ public class ReservationsController {
   ReservationDto postReservation(@RequestBody @Valid Reservations newReservation) {
     return reservationsService.postReservation(newReservation);
   }
+// SAMPLE INPUT
 //      {
-//        "screeningId": 1,
+//        "screeningId": 2,
 //        "name": "Wiktor",
 //        "surname": "Pawlak",
 //        "tickets":
 //         [
 //            {
-//              "seatId": 3,
+//              "seatId": 17,
 //              "type": "ADULT"
 //
 //            },
 //            {
-//              "seatId": 4,
+//              "seatId": 18,
 //              "type": "ADULT"
 //            }
 //         ]
