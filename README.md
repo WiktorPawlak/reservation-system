@@ -15,6 +15,8 @@ Multiplex reservation system
 
 # Endpoints
 Tomcat starts on port: 8080
+H2 db managment available at: http://localhost:8080/h2-console
+Swagger UI available at: http://localhost:8080/swagger-ui/index.html
 
 GET:
 - /screenings - lists available screenings
