@@ -16,64 +16,67 @@ import p.lodz.pl.multiplexreservationsystem.model.Tickets;
 import p.lodz.pl.multiplexreservationsystem.service.ReservationsService;
 import p.lodz.pl.multiplexreservationsystem.service.dto.ReservationDto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ReservationsController.class)
 class ReservationsControllerTest {
-  @Autowired
-  MockMvc mockMvc;
-  @Autowired
-  ObjectMapper mapper;
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper mapper;
 
-  @MockBean
-  ReservationsService reservationsService;
+    @MockBean
+    ReservationsService reservationsService;
 
-  double priceTest = 12.5;
-  LocalDateTime expirationTimeTest = LocalDateTime.of(2022,
-          Month.APRIL, 28, 19, 29, 9);
-  Tickets ticketTest1= Tickets.builder()
-          .id(1L)
-          .seatId(1L)
-          .type(TicketType.CHILD)
-          .build();
-  List<Tickets> ticketsTest = List.of(ticketTest1);
-
-  Reservations reservation = Reservations.builder()
-          .id(1L)
-          .screeningId(1L)
-          .name("Wiktor")
-          .surname("Pawlak")
-          .expirationTime(expirationTimeTest)
-          .tickets(ticketsTest)
-          .build();
-
-
-  @Test
-  void postReservation() throws Exception {
-    ReservationDto reservationInfo = ReservationDto.builder()
-            .price(priceTest)
-            .expirationTime(expirationTimeTest)
+    BigDecimal priceTest = BigDecimal.valueOf(12.5);
+    LocalDateTime expirationTimeTest = LocalDateTime.of(2022,
+            Month.APRIL, 28, 19, 29, 9);
+    Tickets ticketTest1 = Tickets.builder()
+            .id(1L)
+            .seatId(1L)
+            .type(TicketType.CHILD)
             .build();
-    ticketTest1.setReservation(reservation);
+    List<Tickets> ticketsTest = List.of(ticketTest1);
 
-    Mockito.when(reservationsService.postReservation(reservation))
-            .thenReturn(reservationInfo);
+    Reservations reservation = Reservations.builder()
+            .id(1L)
+            .screeningId(1L)
+            .name("Wiktor")
+            .surname("Pawlak")
+            .expirationTime(expirationTimeTest)
+            .tickets(ticketsTest)
+            .build();
 
-    MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/reservations")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .content(mapper.writeValueAsString(reservation));
+
+    @Test
+    void postReservation() throws Exception {
+        ReservationDto reservationInfo = ReservationDto.builder()
+                .price(priceTest)
+                .expirationTime(expirationTimeTest)
+                .build();
+        ticketTest1.setReservation(reservation);
+
+        Mockito.when(reservationsService.postReservation(reservation))
+                .thenReturn(reservationInfo);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/reservations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(reservation));
 
 
-    mockMvc.perform(mockRequest)
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", notNullValue()))
-            .andExpect(jsonPath("$['price']", is(priceTest)))
-            .andExpect(jsonPath("$['expirationTime']", is("2022-04-28T19:29:09")));
-  }
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$['price']", is(priceTest.doubleValue())))
+                .andExpect(jsonPath("$['expirationTime']", is("2022-04-28T19:29:09")));
+    }
 }

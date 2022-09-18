@@ -1,5 +1,6 @@
 package p.lodz.pl.multiplexreservationsystem.service;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import p.lodz.pl.multiplexreservationsystem.model.Seats;
@@ -10,12 +11,16 @@ import p.lodz.pl.multiplexreservationsystem.service.dto.SeatsDto;
 
 import java.util.List;
 
-import static p.lodz.pl.multiplexreservationsystem.service.mapper.SeatsDtoMapper.*;
+import static p.lodz.pl.multiplexreservationsystem.service.mapper.SeatsDtoMapper.mapToRoomInfoDto;
+import static p.lodz.pl.multiplexreservationsystem.service.mapper.SeatsDtoMapper.mapToSeatsDtos;
+
 
 @Service
 @RequiredArgsConstructor
 public class SeatsService {
+
   private final ScreeningsRepository screeningsRepository;
+
   private final SeatsRepository seatsRepository;
 
   public RoomInfoDto getRoomInfo(Long id) {

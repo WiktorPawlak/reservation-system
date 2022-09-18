@@ -1,15 +1,20 @@
 package p.lodz.pl.multiplexreservationsystem.service.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 
 @Value
 @Builder
 @AllArgsConstructor
 public class ReservationDto {
-  double price;
+
+  BigDecimal price;
+
   LocalDateTime expirationTime;
 }

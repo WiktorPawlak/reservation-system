@@ -1,24 +1,27 @@
 package p.lodz.pl.multiplexreservationsystem.controller;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import p.lodz.pl.multiplexreservationsystem.service.ScreeningsService;
 import p.lodz.pl.multiplexreservationsystem.service.SeatsService;
 import p.lodz.pl.multiplexreservationsystem.service.dto.RoomInfoDto;
 import p.lodz.pl.multiplexreservationsystem.service.dto.ScreeningsDto;
-import p.lodz.pl.multiplexreservationsystem.service.ScreeningsService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
 public class ScreeningsController {
 
   private final ScreeningsService screeningsService;
+
   private final SeatsService seatsService;
 
   @GetMapping("/screenings")
