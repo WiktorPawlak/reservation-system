@@ -37,7 +37,6 @@ public class ReservationsService {
 
     private final MoviesRepository moviesRepository;
 
-
     private final TicketsRepository ticketsRepository;
 
     private final SeatsService seatsService;

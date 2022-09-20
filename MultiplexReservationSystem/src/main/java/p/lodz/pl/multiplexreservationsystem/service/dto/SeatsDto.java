@@ -1,17 +1,10 @@
 package p.lodz.pl.multiplexreservationsystem.service.dto;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
 
 
-@Value
 @Builder
-@AllArgsConstructor
-public class SeatsDto {
+public record SeatsDto(int row, int seatNumber) {
 
-  int row;
-
-  int seatNumber;
 }

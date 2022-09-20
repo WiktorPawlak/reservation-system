@@ -17,18 +17,20 @@ import java.time.LocalDateTime;
 @Setter
 public class Screenings {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+    private static final int RESERVED_MINUTES_BEFORE_SCREENING = 15;
 
-  private long movieId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-  private long roomId;
+    private long movieId;
 
-  @NotNull
-  private LocalDateTime date;
+    private long roomId;
 
-  public boolean isTooLateToBook() {
-    return LocalDateTime.now().isAfter(getDate().minusMinutes(15));
-  }
+    @NotNull
+    private LocalDateTime date;
+
+    public boolean isTooLateToBook() {
+        return LocalDateTime.now().isAfter(getDate().minusMinutes(RESERVED_MINUTES_BEFORE_SCREENING));
+    }
 }

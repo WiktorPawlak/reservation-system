@@ -37,13 +37,13 @@ public class Reservations {
     private long screeningId;
 
     @NotEmpty(message = "Name must not be empty.")
-    @Pattern(regexp = "^\\p{IsUppercase}[\\p{IsAlphabetic}]{2,}$",
+    @Pattern(regexp = "^\\p{IsUppercase}\\p{IsAlphabetic}{2,}$",
             message = "Name should be at least three characters long, " +
                     "start with a capital letter and consist only of alphabetic characters.")
     private String name;
 
     @NotEmpty(message = "Surname must not be empty.")
-    @Pattern(regexp = "^\\p{IsUppercase}[\\p{IsAlphabetic}]{2,}$|^\\p{IsUppercase}[\\p{IsAlphabetic}]+-\\p{IsUppercase}[\\p{IsAlphabetic}]{2,}$",
+    @Pattern(regexp = "^\\p{IsUppercase}\\p{IsAlphabetic}{2,}$|^\\p{IsUppercase}\\p{IsAlphabetic}+-\\p{IsUppercase}\\p{IsAlphabetic}{2,}$",
             message = "Surname should be at least three characters long, " +
                     "start with a capital letter and consist only of alphabetic characters." +
                     " If surname consists of two parts it must be separated with a single dash.")
