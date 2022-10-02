@@ -1,4 +1,4 @@
-package p.lodz.pl.multiplexreservationsystem.controller;
+package p.lodz.pl.multiplexreservationsystem.controller.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import p.lodz.pl.multiplexreservationsystem.controller.ReservationsController;
 import p.lodz.pl.multiplexreservationsystem.model.Reservations;
 import p.lodz.pl.multiplexreservationsystem.model.TicketType;
 import p.lodz.pl.multiplexreservationsystem.model.Tickets;

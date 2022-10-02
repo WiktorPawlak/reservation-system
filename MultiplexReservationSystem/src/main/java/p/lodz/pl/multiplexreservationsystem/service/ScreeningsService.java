@@ -23,11 +23,11 @@ public class ScreeningsService {
 
     private final ScreeningsRepository screeningsRepository;
 
-    public Screenings getSingleScreening(Long id) {
-        return screeningsRepository.findById(id).orElseThrow();
-    }
+    public List<ScreeningsDto> getScreeningsWithMovies(Integer page) {
+        if (page == null || page < 0) {
+            page = 0;
+        }
 
-    public List<ScreeningsDto> getScreeningsWithMovies(int page) {
         return mapToScreeningsDtos(screeningsRepository
                 .findAllScreeningsJoinMovies(PageRequest
                         .of(page, PAGE_SIZE,
@@ -37,7 +37,15 @@ public class ScreeningsService {
         );
     }
 
-    public List<ScreeningsDto> getScreeningsWithinPeriod(LocalDateTime from, LocalDateTime to, int page) {
+    public Screenings getSingleScreening(final Long id) {
+        return screeningsRepository.findById(id).orElseThrow();
+    }
+
+    public List<ScreeningsDto> getScreeningsWithinPeriod(final LocalDateTime from, final LocalDateTime to, Integer page) {
+        if (page == null || page < 0) {
+            page = 0;
+        }
+
         return mapToScreeningsDtos(screeningsRepository.findAllScreeningsWithinPeriod(from, to,
                 PageRequest.of(page, PAGE_SIZE,
                         Sort.by(Sort.Order.asc("m.title"),

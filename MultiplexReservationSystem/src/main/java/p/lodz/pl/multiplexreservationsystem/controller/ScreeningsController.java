@@ -20,25 +20,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScreeningsController {
 
-  private final ScreeningsService screeningsService;
+    private final ScreeningsService screeningsService;
 
-  private final SeatsService seatsService;
+    private final SeatsService seatsService;
 
-  @GetMapping("/screenings")
-  public List<ScreeningsDto> getScreeningsWithMovies(@RequestParam(required = false) int page) {
-    return screeningsService.getScreeningsWithMovies(page);
-  }
+    @GetMapping("/screenings")
+    public List<ScreeningsDto> getScreeningsWithMovies(@RequestParam(required = false) Integer page) {
+        return screeningsService.getScreeningsWithMovies(page);
+    }
 
-  @GetMapping("/screenings/{id:[\\d+]}")
-  public RoomInfoDto getSingleScreening(@PathVariable("id") Long id) {
-    return seatsService.getRoomInfo(id);
-  }
+    @GetMapping("/screenings/{id:[\\d+]}")
+    public RoomInfoDto getSingleScreening(@PathVariable("id") Long id) {
+        return seatsService.getRoomInfo(id);
+    }
 
-  @GetMapping("/screenings/{from},{to}")
-  public List<ScreeningsDto> getScreeningsWithinPeriod(
-          @PathVariable("from") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime from,
-          @PathVariable("to") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime to,
-          int page) {
-    return screeningsService.getScreeningsWithinPeriod(from, to, page);
-  } //2022-04-19T11:00
+    @GetMapping("/screenings/{from},{to}")
+    public List<ScreeningsDto> getScreeningsWithinPeriod(
+            @PathVariable("from") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime from,
+            @PathVariable("to") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime to,
+            @RequestParam(required = false) Integer page) {
+        return screeningsService.getScreeningsWithinPeriod(from, to, page);
+    } //2022-04-19T11:00
 }
